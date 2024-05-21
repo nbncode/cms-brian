@@ -1,0 +1,170 @@
+﻿@model CMS_Brian.Models.Admin.Class.ClassDetails
+@using CMS_Brian.Models
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<header class="ribbon">
+    <h2>&nbsp;</h2>
+</header>
+
+<div class="page-content">
+    <div class="container-fluid">
+        @{Html.RenderPartial("alerts");}
+        <div class="kt-portlet kt-portlet--mobile">
+            <div class="kt-portlet__head kt-portlet__head--lg breadcrumb-sec">
+                <div class="kt-portlet__head-label">
+                    <h4>
+                        <a href="/Admin/Class" class="kt-menu__link ">
+                            <i class="kt-menu__link-icon flaticon-alert-1"><span></span></i>
+                            <span class="kt-menu__link-text">Class</span>
+                        </a>
+                        <span> > &nbsp; </span>
+                    </h4>
+                    <h3 class="kt-portlet__head-bred">
+                        Details
+                    </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <div class="kt-portlet__head-wrapper">
+                        <div class="kt-portlet__head-actions">
+                            <a href="/admin/Class" class="btn btn-brand btn-elevate btn-icon-sm">
+                                <i class="la la-step-backward"></i>
+                                Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="kt-portlet__body">
+                <div class="kt-card-profile__details">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <strong><label>Class Name : </label></strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <b> @Model.ClassName</b>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <strong><label>Class Fees : </label></strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <b> @Model.ClassFees</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <strong><label>Location Name : </label></strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <b> @Model.LocationName</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <strong><label>Address : </label></strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <b> @Model.Address</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <strong><label>Class Description : </label></strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <b> @Model.ClassDescription</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <strong><label>Status : </label></strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <b> @Model.Status</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <strong><label>Available Days : </label></strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <b> @Model.AvailableDays</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <strong><label>Assign Instructor Name : </label></strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <b> @Model.InstructorName</b>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="container-fluid">
+                @{Html.RenderPartial("alerts");}
+                <input type="hidden" id="PageView" value="DashboardClientPartialView/?classId=@Model.ClassId" />
+                <div id="main-content">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var url = $("#PageView").val();
+            console.log(url);
+            admin.LoadAdminPartialView(url,"#main-content");
+        });
+    </script>
+}
+
+
+
+
+
+
+
+
+
+

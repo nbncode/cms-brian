@@ -1,0 +1,148 @@
+﻿@model CMS_Brian.Models.UserRegister.ClsUserRegister
+@{
+    ViewBag.Title = "Register";
+    Layout = null;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@{Html.RenderPartial("alerts");}
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { id = "frmRegister", @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Contact Information</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">Register as</label>
+        <div class="col-md-10">
+
+            <input type="radio" name="RegisterType" value="Administrators" id="rbAdministrators" class="form-control" /> <label>Administrator</label>
+
+            <input type="radio" name="RegisterType" value="Instructors" id="rbInstructors" class="form-control" /><label>Instructor</label>
+
+            <input type="radio" name="RegisterType" value="Clients" id="rbClients" class="form-control" /><label>User</label>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Address, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <input type="hidden" id="city" name="city" />
+    <input type="hidden" id="cityLat" name="Latitude" />
+    <input type="hidden" id="cityLng" name="Longitude" />
+    @Html.HiddenFor(m => m.RegTypeId)
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Register" onclick="SelectRegisterTypeRadio()" />
+        </div>
+    </div>
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            InitAddressAutocomplete();
+
+            SelectRegisterTypeRadio();
+
+            ApplyAsteriksToRequiredFields();
+
+            ImproviseInputByiCheck();
+
+        });
+
+        function InitAddressAutocomplete() {
+            var input = document.getElementById('Address');
+
+            var options = {
+                types: ['(cities)'],
+                componentRestrictions: { country: 'in' }
+            };
+
+            autocomplete = new google.maps.places.Autocomplete(input, options);
+
+            // Get latitude and longitude
+            google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                var place = autocomplete.getPlace();
+                document.getElementById('city').value = place.name;
+                document.getElementById('cityLat').value = place.geometry.location.lat();
+                document.getElementById('cityLng').value = place.geometry.location.lng();
+
+            });
+        }
+
+        function SelectRegisterTypeRadio() {
+            var regTypeId = $('#RegTypeId').val();
+
+            //console.log("Register type radio selected: " + regTypeId);
+
+            // Check radio as per value
+            $(regTypeId).iCheck('check');
+            //$(regTypeId).prop("checked", true).change();
+        }
+
+        function ApplyAsteriksToRequiredFields() {
+            $('input[type=text]').each(function () {
+                var req = $(this).attr('data-val-required');
+                if (undefined != req) {
+                    var label = $('label[for="' + $(this).attr('id') + '"]');
+                    var text = label.text();
+                    if (text.length > 0) {
+                        label.append('<span style="color:red"> *</span>');
+                    }
+                }
+            });
+        }
+
+        function ImproviseInputByiCheck() {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%'
+            });
+        }
+
+    </script>
+
+}

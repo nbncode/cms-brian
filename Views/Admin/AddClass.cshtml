@@ -1,0 +1,213 @@
+﻿@model CMS_Brian.Models.Admin.Class.ClassResponse
+@using CMS_Brian.Models.Admin.Class
+@using CMS_Brian.Models.Admin.AvailableDays;
+@{
+    RepoAvailableDays availDayd = new RepoAvailableDays();
+    var AllAvailableDays = availDayd.GetAllAvailableDays();
+
+    ViewBag.Title = "AddClass";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<header class="ribbon">
+    <h2>&nbsp;</h2>
+</header>
+
+<div class="page-content">
+    @{Html.RenderPartial("alerts");}
+
+    <div class="row">
+        <div class="col-md-12">
+            <!--begin::Portlet-->
+            <div class="kt-portlet">
+
+
+                @using (Html.BeginForm())
+                {
+                    <div class="kt-portlet__head breadcrumb-sec">
+                        <div class="kt-portlet__head-label">
+                            <h4>
+                                <a href="/Admin/Class" class="kt-menu__link ">
+                                    <i class="kt-menu__link-icon flaticon-alert-1"><span></span></i>
+                                    <span class="kt-menu__link-text">Class</span>
+                                </a>
+                                <span> > &nbsp; </span>
+                            </h4>
+                            @if (Model != null && Model.ClassId > 0)
+                            {
+                                <h3 class="kt-portlet__head-bred">
+                                    Edit Class
+                                </h3>
+                            }
+                            else
+                            {
+                                <h3 class="kt-portlet__head-bred">
+                                    Add Class
+                                </h3>
+                            }
+                        </div>
+                        <div class="kt-portlet__head-toolbar">
+                            <div class="kt-portlet__head-wrapper">
+                                <div class="kt-portlet__head-actions">
+                                    <a href="/admin/Class" class="btn btn-brand btn-elevate btn-icon-sm">
+                                        <i class="la la-step-backward"></i>
+                                        Back
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kt-form">
+                        <div class="kt-portlet__body">
+
+                            @Html.HiddenFor(model => model.ClassId)
+                            @Html.HiddenFor(model => model.DaysOfWeek)
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Class Name <em>*</em></label>
+                                        @Html.EditorFor(model => model.ClassName, new { htmlAttributes = new { @class = "form-control required" } })
+                                        @Html.ValidationMessageFor(model => model.ClassName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Location Name <em>*</em></label>
+                                        @Html.EditorFor(model => model.LocationName, new { htmlAttributes = new { @class = "form-control required" } })
+                                        @Html.ValidationMessageFor(model => model.LocationName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Address <em>*</em></label>
+                                        @Html.TextAreaFor(model => model.Address, new { htmlAttributes = new { @class = "form-control required" } })
+                                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Class Description</label>
+                                        @Html.TextAreaFor(model => model.ClassDescription, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.ClassDescription, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Select Instructor <em>*</em> </label>
+                                        @Html.DropDownListFor(model => model.InstructorId, new SelectList(ViewBag.UserList, "Value", "Text"), new { @class = "form-control required" })
+                                        @Html.ValidationMessageFor(model => model.InstructorId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Available Days<em>*</em></label>
+                                        <select class="form-control multiselect Distibutor-Brand required" multiple>
+                                            @{
+                                                RepoClass admAvailDays = new RepoClass();
+                                                var classId = Model != null ? Model.ClassId ?? 0 : 0;
+                                                var selectedDays = admAvailDays.GetAvailableDaysByClassId(classId);
+                                                if (AllAvailableDays != null)
+                                                {
+                                                    foreach (var availDay in AllAvailableDays)
+                                                    {
+                                                        var IsExists = selectedDays.Where(x => x.Id == availDay.Id).FirstOrDefault();
+                                                        if (IsExists != null)
+                                                        {
+                                                            <option value="@availDay.Id" selected>@availDay.DayName</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@availDay.Id">@availDay.DayName</option>
+                                                        }
+
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Status <em>*</em></label>
+                                        <input type="hidden" id="iStatus" value="@(Model!=null ? Model.Status : "")" />
+                                        @Html.DropDownList("Status", new List<SelectListItem>
+    {
+        new SelectListItem{ Text="Active", Value="Active"},
+        new SelectListItem{ Text="Inactive", Value="Inactive"},
+        new SelectListItem{ Text="Hold", Value="Hold"}
+    }, "--- Select ---", new { @class = "form-control required" })
+                                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                 <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Fees </label>
+                                        @Html.EditorFor(model => model.ClassFees, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.ClassFees, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kt-portlet__foot">
+                        <div class="kt-form__actions">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="reset" class="btn btn-secondary">Cancel</button>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!--end::Portlet-->
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            GetAvailDaysIds();
+            // Select Status during edit based on database record
+            var classid = $("#ClassId").val();
+            if (classid != null && classid != 0) {
+                var selectedStatus = $.trim($('#iStatus').val());
+                $('select[name^="Status"] option[value="' + selectedStatus + '"]').attr("selected", "selected");
+            }
+            $(".Distibutor-Brand").on("change", function () {
+                GetAvailDaysIds();
+            });
+        });
+
+        function GetAvailDaysIds() {
+            var AvailDaysIds = "";
+            $(".Distibutor-Brand option:selected").each(function () {
+                if (AvailDaysIds == "") {
+                    AvailDaysIds = $(this).val();
+                } else {
+                    AvailDaysIds = AvailDaysIds + "," + $(this).val();
+                }
+            })
+            console.log("AvailDaysIds", AvailDaysIds);
+            $("#DaysOfWeek").val(AvailDaysIds);
+        }
+    </script>
+}
+
+
+
+
+
+
+
+
+

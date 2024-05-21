@@ -1,0 +1,168 @@
+﻿@model CMS_Brian.Models.ResponseUserProfile
+@using CMS_Brian.Models
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="kt-subheader-search">
+    <h3 class="kt-subheader-search__title">
+        Profile
+    </h3>
+</div>
+
+
+<header class="ribbon">
+    <h2>&nbsp;</h2>
+</header>
+
+<div class="page-content">
+    <div class="container-fluid">
+        @{Html.RenderPartial("alerts");}
+        <div class="kt-portlet kt-portlet--mobile">
+            <div class="kt-portlet__head kt-portlet__head--lg breadcrumb-sec">
+                <div class="kt-portlet__head-label">
+                    <span class="kt-portlet__head-icon">
+                        <i class="kt-font-brand flaticon2-line-chart"></i>
+                    </span>
+                    <h3 class="kt-portlet__head-title">
+                        Details
+                    </h3>
+                </div>
+            </div>
+            <div class="kt-portlet__body">
+                <div class="kt-card-profile__details">                   
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <strong><label>First Name : </label></strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <b> @Model.FirstName</b>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <img src="@Model.UserImage" onerror="changeurl(this)" class="kt-card-profile__no-photo" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <strong><label>Last Name : </label></strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <b> @Model.LastName</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <strong><label>Gender : </label></strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <b> @Model.Gender</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <strong><label>Date Of Birth : </label></strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <b> @Model.DateOfBirth</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <strong><label>Phone Number : </label></strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <b> @Model.PhoneNumber</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <strong><label>Email Address : </label></strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <b> @Model.Emailaddress</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <strong><label>Address : </label></strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <b> @Model.Address</b>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    @*@if (Model.Role == Constants.Administrators)
+        {
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2>Administrator Details</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <strong><label>Administrator Name : </label></strong>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <b> @Model.WorkShopName</b>
+                    </div>
+                </div>
+            </div>
+        }*@
+
+                </div>
+            </div>
+            <div class="kt-portlet__foot">
+                <div class="kt-form__actions">
+                    <a href="/Home/Profile" class="btn btn-brand btn-elevate btn-icon-sm">
+                        <i class="la la-edit"></i>
+                        Edit
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+

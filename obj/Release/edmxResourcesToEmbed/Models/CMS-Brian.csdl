@@ -1,0 +1,362 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CMSBrianModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="CMSBrianEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AspNetRoles" EntityType="CMSBrianModel.AspNetRole" />
+    <EntitySet Name="AspNetUserClaims" EntityType="CMSBrianModel.AspNetUserClaim" />
+    <EntitySet Name="AspNetUserLogins" EntityType="CMSBrianModel.AspNetUserLogin" />
+    <EntitySet Name="AspNetUsers" EntityType="CMSBrianModel.AspNetUser" />
+    <EntitySet Name="AvailableDays" EntityType="CMSBrianModel.AvailableDay" />
+    <EntitySet Name="ClassTables" EntityType="CMSBrianModel.ClassTable" />
+    <EntitySet Name="Logs" EntityType="CMSBrianModel.Log" />
+    <EntitySet Name="UserAvailableDays" EntityType="CMSBrianModel.UserAvailableDay" />
+    <EntitySet Name="UserDetails" EntityType="CMSBrianModel.UserDetail" />
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="CMSBrianModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="CMSBrianModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK__UserDetai__UserI__45F365D3" Association="CMSBrianModel.FK__UserDetai__UserI__45F365D3">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="UserDetail" EntitySet="UserDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Logs_Logs" Association="CMSBrianModel.FK_Logs_Logs">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Log" EntitySet="Logs" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserRoles" Association="CMSBrianModel.AspNetUserRoles">
+      <End Role="AspNetRole" EntitySet="AspNetRoles" />
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+    </AssociationSet>
+    <EntitySet Name="ClientPaymentLogs" EntityType="CMSBrianModel.ClientPaymentLog" />
+    <EntitySet Name="ClassRosters" EntityType="CMSBrianModel.ClassRoster" />
+    <EntitySet Name="ClientClasses" EntityType="CMSBrianModel.ClientClass" />
+    <EntitySet Name="Judges" EntityType="CMSBrianModel.Judge" />
+    <AssociationSet Name="FK__ClassRost__Judge__02084FDA" Association="CMSBrianModel.FK__ClassRost__Judge__02084FDA">
+      <End Role="Judge" EntitySet="Judges" />
+      <End Role="ClassRoster" EntitySet="ClassRosters" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ClientCla__Class__73BA3083" Association="CMSBrianModel.FK__ClientCla__Class__73BA3083">
+      <End Role="ClassTable" EntitySet="ClassTables" />
+      <End Role="ClientClass" EntitySet="ClientClasses" />
+    </AssociationSet>
+    <EntitySet Name="Clients" EntityType="CMSBrianModel.Client" />
+    <AssociationSet Name="FK__ClassRost__Clien__7B5B524B" Association="CMSBrianModel.FK__ClassRost__Clien__7B5B524B">
+      <End Role="Client" EntitySet="Clients" />
+      <End Role="ClassRoster" EntitySet="ClassRosters" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ClientPay__Clien__7E37BEF6" Association="CMSBrianModel.FK__ClientPay__Clien__7E37BEF6">
+      <End Role="Client" EntitySet="Clients" />
+      <End Role="ClientPaymentLog" EntitySet="ClientPaymentLogs" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Clients__JudgeId__01142BA1" Association="CMSBrianModel.FK__Clients__JudgeId__01142BA1">
+      <End Role="Judge" EntitySet="Judges" />
+      <End Role="Client" EntitySet="Clients" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="AspNetRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="CMSBrianModel.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaim">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="CMSBrianModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogin">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="CMSBrianModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="AspNetUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUserClaims" Relationship="CMSBrianModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+    <NavigationProperty Name="AspNetUserLogins" Relationship="CMSBrianModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+    <NavigationProperty Name="UserDetails" Relationship="CMSBrianModel.FK__UserDetai__UserI__45F365D3" FromRole="AspNetUser" ToRole="UserDetail" />
+    <NavigationProperty Name="Logs" Relationship="CMSBrianModel.FK_Logs_Logs" FromRole="AspNetUser" ToRole="Log" />
+    <NavigationProperty Name="AspNetRoles" Relationship="CMSBrianModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+  </EntityType>
+  <EntityType Name="AvailableDay">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DayName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="ClassTable">
+    <Key>
+      <PropertyRef Name="ClassId" />
+    </Key>
+    <Property Name="ClassId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClassName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="ClassDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="LocationName" Type="String" MaxLength="800" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="800" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DaysOfWeek" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="InsAdminId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ClientClasses" Relationship="CMSBrianModel.FK__ClientCla__Class__73BA3083" FromRole="ClassTable" ToRole="ClientClass" />
+    <Property Name="ClassFees" Type="Decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="Log">
+    <Key>
+      <PropertyRef Name="LogsId" />
+    </Key>
+    <Property Name="LogsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="OutstandingAmount" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="PaymentId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="CMSBrianModel.FK_Logs_Logs" FromRole="Log" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="UserAvailableDay">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AvailableDayId" Type="Int32" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="UserDetail">
+    <Key>
+      <PropertyRef Name="UserDetailId" />
+    </Key>
+    <Property Name="UserDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="DateofBirth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="JudgeName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SignedFormUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="UserImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="CMSBrianModel.FK__UserDetai__UserI__45F365D3" FromRole="UserDetail" ToRole="AspNetUser" />
+  </EntityType>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Type="CMSBrianModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="CMSBrianModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaim">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Type="CMSBrianModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="CMSBrianModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogin">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__UserDetai__UserI__45F365D3">
+    <End Type="CMSBrianModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+    <End Type="CMSBrianModel.UserDetail" Role="UserDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserDetail">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Logs_Logs">
+    <End Type="CMSBrianModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="CMSBrianModel.Log" Role="Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Log">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserRoles">
+    <End Type="CMSBrianModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+    <End Type="CMSBrianModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+  </Association>
+  <EntityType Name="ClientPaymentLog">
+    <Key>
+      <PropertyRef Name="PaymentLogId" />
+    </Key>
+    <Property Name="PaymentLogId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClassId" Type="Int32" />
+    <Property Name="ClientId" Type="Int32" />
+    <Property Name="PaymentMode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PaidAmount" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Client" Relationship="CMSBrianModel.FK__ClientPay__Clien__7E37BEF6" FromRole="ClientPaymentLog" ToRole="Client" />
+  </EntityType>
+  <EntityType Name="ClassRoster">
+    <Key>
+      <PropertyRef Name="RosterId" />
+    </Key>
+    <Property Name="RosterId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClassId" Type="Int32" />
+    <Property Name="ClientId" Type="Int32" />
+    <Property Name="StartDate" Type="DateTime" Precision="0" />
+    <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="JudgeId" Type="Int32" />
+    <NavigationProperty Name="Judge" Relationship="CMSBrianModel.FK__ClassRost__Judge__02084FDA" FromRole="ClassRoster" ToRole="Judge" />
+    <NavigationProperty Name="Client" Relationship="CMSBrianModel.FK__ClassRost__Clien__7B5B524B" FromRole="ClassRoster" ToRole="Client" />
+  </EntityType>
+  <EntityType Name="ClientClass">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClassId" Type="Int32" />
+    <Property Name="ClientId" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="lastUpdate" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ClassTable" Relationship="CMSBrianModel.FK__ClientCla__Class__73BA3083" FromRole="ClientClass" ToRole="ClassTable" />
+  </EntityType>
+  <EntityType Name="Judge">
+    <Key>
+      <PropertyRef Name="JudgeId" />
+    </Key>
+    <Property Name="JudgeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="JudgeName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ClassRosters" Relationship="CMSBrianModel.FK__ClassRost__Judge__02084FDA" FromRole="Judge" ToRole="ClassRoster" />
+    <NavigationProperty Name="Clients" Relationship="CMSBrianModel.FK__Clients__JudgeId__01142BA1" FromRole="Judge" ToRole="Client" />
+  </EntityType>
+  <Association Name="FK__ClassRost__Judge__02084FDA">
+    <End Type="CMSBrianModel.Judge" Role="Judge" Multiplicity="0..1" />
+    <End Type="CMSBrianModel.ClassRoster" Role="ClassRoster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Judge">
+        <PropertyRef Name="JudgeId" />
+      </Principal>
+      <Dependent Role="ClassRoster">
+        <PropertyRef Name="JudgeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ClientCla__Class__73BA3083">
+    <End Type="CMSBrianModel.ClassTable" Role="ClassTable" Multiplicity="0..1" />
+    <End Type="CMSBrianModel.ClientClass" Role="ClientClass" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ClassTable">
+        <PropertyRef Name="ClassId" />
+      </Principal>
+      <Dependent Role="ClientClass">
+        <PropertyRef Name="ClassId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Client">
+    <Key>
+      <PropertyRef Name="ClientId" />
+    </Key>
+    <Property Name="ClientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DateofBirth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SignedForm" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="JudgeId" Type="Int32" />
+    <NavigationProperty Name="ClassRosters" Relationship="CMSBrianModel.FK__ClassRost__Clien__7B5B524B" FromRole="Client" ToRole="ClassRoster" />
+    <NavigationProperty Name="ClientPaymentLogs" Relationship="CMSBrianModel.FK__ClientPay__Clien__7E37BEF6" FromRole="Client" ToRole="ClientPaymentLog" />
+    <NavigationProperty Name="Judge" Relationship="CMSBrianModel.FK__Clients__JudgeId__01142BA1" FromRole="Client" ToRole="Judge" />
+  </EntityType>
+  <Association Name="FK__ClassRost__Clien__7B5B524B">
+    <End Type="CMSBrianModel.Client" Role="Client" Multiplicity="0..1" />
+    <End Type="CMSBrianModel.ClassRoster" Role="ClassRoster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="ClientId" />
+      </Principal>
+      <Dependent Role="ClassRoster">
+        <PropertyRef Name="ClientId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ClientPay__Clien__7E37BEF6">
+    <End Type="CMSBrianModel.Client" Role="Client" Multiplicity="0..1" />
+    <End Type="CMSBrianModel.ClientPaymentLog" Role="ClientPaymentLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="ClientId" />
+      </Principal>
+      <Dependent Role="ClientPaymentLog">
+        <PropertyRef Name="ClientId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Clients__JudgeId__01142BA1">
+    <End Type="CMSBrianModel.Judge" Role="Judge" Multiplicity="0..1" />
+    <End Type="CMSBrianModel.Client" Role="Client" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Judge">
+        <PropertyRef Name="JudgeId" />
+      </Principal>
+      <Dependent Role="Client">
+        <PropertyRef Name="JudgeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

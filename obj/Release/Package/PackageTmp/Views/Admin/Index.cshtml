@@ -1,0 +1,166 @@
+﻿@model CMS_Brian.Models.Dashboard.DashboardModel
+@using CMS_Brian.Models.Others;
+@using CMS_Brian.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<input type="hidden" id="Role" name="custRole" value="@Model.Role">
+<div class="page-content">
+    <div class="container-fluid container-fluid-main">
+        <div class="row mt-3">
+            @if (Model.Role == Constants.SuperAdmin || Model.Role == Constants.Administrators)
+            {
+                <div class="col">
+                    <div class="card">
+                        <div class="media media-block">
+                            <div class="d-inline-block mt-2 mr-3">
+                                <h1><i class="kt-menu__link-icon flaticon-network"><span></span></i></h1>
+                            </div><div class="media-body">
+                                <h6 class="mb-2">@Model.TotalAdministrators Administrators </h6>
+                                <div class="mb-0">
+                                    <a href="/Admin/Administrator" class="kt-menu__link ">
+                                        <span class="kt-menu__link-text">View</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (Model.Role != Constants.Instructors)
+            {
+                <div class="col">
+                    <div class="card">
+                        <div class="media media-block">
+                            <div class="d-inline-block mt-2 mr-3">
+                                <h1><i class="kt-menu__link-icon flaticon-presentation"><span></span></i></h1>
+                            </div><div class="media-body">
+                                <h6 class="mb-2">@Model.TotalInstructors Instructors </h6>
+                                <div class="mb-0">
+                                    <a href="/Admin/Instructor" class="kt-menu__link ">
+                                        <span class="kt-menu__link-text">View</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="col">
+                <div class="card">
+                    <div class="media media-block">
+                        <div class="d-inline-block mt-2 mr-3">
+                            <h1><i class="kt-menu__link-icon flaticon2-list-3"><span></span></i></h1>
+                        </div><div class="media-body">
+                            <h6 class="mb-2">@Model.TotalJudges Judges </h6>
+                            <div class="mb-0">
+                                <a href="/Admin/Judge" class="kt-menu__link ">
+                                    <span class="kt-menu__link-text">View</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <div class="media media-block">
+                        <div class="d-inline-block mt-2 mr-3">
+                            <h1><i class="kt-menu__link-icon flaticon-users"><span></span></i></h1>
+                        </div><div class="media-body">
+                            <h6 class="mb-2">@Model.TotalClients Clients </h6>
+                            <div class="mb-0">
+                                <a href="/Admin/Client" class="kt-menu__link ">
+                                    <span class="kt-menu__link-text">View</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <div class="media media-block">
+                        <div class="d-inline-block mt-2 mr-3">
+                            <h1><i class="kt-menu__link-icon flaticon-alert-1"><span></span></i></h1>
+                        </div><div class="media-body">
+                            <h6 class="mb-2">@Model.TotalClasses Classes </h6>
+                            <div class="mb-0">
+                                <a href="/Admin/Class" class="kt-menu__link ">
+                                    <span class="kt-menu__link-text">View</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+    @if (!General.IsInstructors())
+    {
+        <div class="page-content">
+            <div class="container-fluid">
+                @{Html.RenderPartial("alerts");}
+                <div class="kt-portlet kt-portlet--mobile">
+                    <div class="kt-portlet__body">
+                        <div class="container-fluid">
+                            <input type="hidden" id="PageView2" value="DashboardInstructorPartialView" />
+                            <div id="Instructortable">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="page-content">
+        <div class="container-fluid">
+            @{Html.RenderPartial("alerts");}
+            <div class="kt-portlet kt-portlet--mobile">
+                <div class="kt-portlet__body">
+                    <div class="container-fluid">
+                        <input type="hidden" id="PageView" value="ClassPartialView/?userId=@Model.UserId" />
+                        <div id="main-content">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content">
+        <div class="container-fluid">
+            @{Html.RenderPartial("alerts");}
+            <div class="kt-portlet kt-portlet--mobile">
+                <div class="kt-portlet__body">
+                    <div class="container-fluid">
+                        <input type="hidden" id="PageView1" value="DashboardClientPartialView" />
+                        <div id="clienttable">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section scripts{
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var role = $("#Role").val();
+                if (role != 'Instructors') {
+                    var url2 = $("#PageView2").val();
+                    admin.LoadAdminPartialView(url2, "#Instructortable");
+                }
+                var url = $("#PageView").val();
+                admin.LoadHomePartialView(url);
+                var url1 = $("#PageView1").val();
+                admin.LoadAdminPartialView(url1, "#clienttable");
+            });
+        </script>
+    }

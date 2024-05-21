@@ -1,0 +1,127 @@
+﻿@model CMS_Brian.Models.judgeModel.ClsJudge
+@using CMS_Brian.Models
+
+@{
+    ViewBag.Title = "JudgeDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@*<div class="kt-subheader-search">
+    <h3 class="kt-subheader-search__title">
+        Judge Details
+    </h3>
+</div>*@
+
+
+<header class="ribbon">
+    <h2>&nbsp;</h2>
+</header>
+
+<div class="page-content">
+    <div class="container-fluid">
+        @{Html.RenderPartial("alerts");}
+        <div class="kt-portlet kt-portlet--mobile">
+            <div class="kt-portlet__head kt-portlet__head--lg breadcrumb-sec">
+                <div class="kt-portlet__head-label">
+                    <h4>
+                        <a href="/Admin/Judge" class="kt-menu__link ">
+                            <i class="kt-menu__link-icon flaticon2-list-3"><span></span></i>
+                            <span class="kt-menu__link-text">Judges</span>
+                        </a>
+                        <span> > &nbsp; </span>
+                    </h4>
+                    <h3 class="kt-portlet__head-bred">
+                        Details
+                    </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <div class="kt-portlet__head-wrapper">
+                        <div class="kt-portlet__head-actions">
+                            <a href="/admin/Judge" class="btn btn-brand btn-elevate btn-icon-sm">
+                                <i class="la la-step-backward"></i>
+                                Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="kt-portlet__body">
+                <div class="kt-card-profile__details">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <strong><label>Judge Name : </label></strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <b> @Model.JudgeName</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <strong><label>Email : </label></strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <b> @Model.Email</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <strong><label>Phone Number : </label></strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <b> @Model.PhoneNumber</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <strong><label>Address : </label></strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <b> @Model.Address</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="kt-portlet__foot">
+                <div class="kt-form__actions">
+                    <a href="/Admin/AssignClientsToJudgeView/?JudgeId=@Model.JudgeId" class="btn btn-brand btn-elevate btn-icon-sm">
+                        <i class="la la-plus"></i>
+                        Assign Clients
+                    </a>
+                </div>
+            </div>
+            <div class="container-fluid">
+                @{Html.RenderPartial("alerts");}
+                <input type="hidden" id="PageView" value="AssignClientsForJudge/?JudgeId=@Model.JudgeId" />
+                <div id="main-content">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var url = $("#PageView").val();
+            console.log(url);
+            admin.LoadAdminPartialView(url, "#main-content");
+        });
+    </script>
+}

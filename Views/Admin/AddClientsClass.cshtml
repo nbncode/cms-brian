@@ -1,0 +1,117 @@
+﻿@model CMS_Brian.Models.Admin.Class.clsAddClientClass
+@using CMS_Brian.Models;
+@{
+
+    ViewBag.Title = "Add Client Class";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var clientId = ViewBag.ClientId;
+    var classes = (List<ClassTable>)ViewBag.ClassList;
+}
+
+
+<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
+    @*<div class="kt-subheader-search">
+        <h3 class="kt-subheader-search__title">
+            Classes
+        </h3>
+    </div>*@
+    <header class="ribbon">
+        <h2>&nbsp;</h2>
+    </header>
+    <div class="page-content">
+        <div class="page-content">
+            <div class="kt-content  kt-grid__item kt-grid__item--fluid" id="main-content">
+                @{Html.RenderPartial("alerts");}
+                <div class="row">
+                    <div class="col-md-12">
+                        <!--begin::Portlet-->
+                        <div class="kt-portlet">
+                            <div class="kt-portlet__head breadcrumb-sec">
+                                <div class="kt-portlet__head-label">
+                                    <h4>
+                                        <a href="/Admin/Client" class="kt-menu__link ">
+                                            <i class="kt-menu__link-icon flaticon-users"><span></span></i>
+                                            <span class="kt-menu__link-text">Clients</span>
+                                        </a>
+                                        <span> > &nbsp; </span>
+                                        <a href="/Admin/ClientDetails/?ClientId=@Model.ClientId" class="kt-menu__link ">
+                                            <span class="kt-menu__link-text">Details</span>
+                                        </a>
+                                        <span> > &nbsp; </span>
+                                        Add Classes to Client (@Model.ClientName)
+                                    </h4>
+                                    <h3 class="kt-portlet__head-bred">
+                                      
+                                    </h3>
+                                </div>
+                                <div class="kt-portlet__head-toolbar">
+                                    <div class="kt-portlet__head-wrapper">
+                                        <div class="kt-portlet__head-actions">
+                                            <a href="@Request.UrlReferrer" class="btn btn-brand btn-elevate btn-icon-sm">
+                                                <i class="la la-step-backward"></i>
+                                                Back
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="kt-form">
+                                    <div class="kt-portlet__body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group SeWorkshop">
+                                                    <div class="row">
+                                                        @if (classes.Count > 0)
+                                                        {
+                                                            if (Model != null && Model.ClassIds.Count > 0)
+                                                            {
+                                                                foreach (var item in classes)
+                                                                {
+                                                                    var check = Model.ClassIds.Contains(item.ClassId) ? "checked" : string.Empty;
+
+                                                                    <div class="col-md-3">
+                                                                        <div class="form-group">
+                                                                            <input type="checkbox" @check class="icheck_n" name="Feature" value="@item.ClassId"><label>@item.ClassName</label>
+                                                                        </div>
+                                                                    </div>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                foreach (var item in classes)
+                                                                {
+                                                                    <div class="col-md-3">
+                                                                        <div class="form-group">
+                                                                            <input type="checkbox" class="icheck_n" name="@item.ClassId" value="@item.ClassId"><label>@item.ClassName</label>
+                                                                        </div>
+                                                                    </div>
+                                                                }
+                                                            }
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <h5>class not found.</h5>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kt-portlet__foot">
+                                <div class="form-group">
+                                    <a href="javascript:void(0);" class="btn btn-primary text-white" onclick="admin.SubmitClientClassId('@clientId')">Submit</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

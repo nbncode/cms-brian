@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "ClassRoster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<header class="ribbon">
+    <h2>&nbsp;</h2>
+</header>
+<div class="page-content">
+    <div class="container-fluid">
+        @{Html.RenderPartial("alerts");}
+        <input type="hidden" id="PageView" value="ClassRosterPartialView/?ClassId=@ViewBag.classId" />
+        <div id="main-content">
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var url = $("#PageView").val();
+            console.log(url);
+            admin.LoadAdminPartialView(url, "#main-content");
+        });
+    </script>
+}
+
+
+
+
+

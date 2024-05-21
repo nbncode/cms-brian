@@ -1,0 +1,300 @@
+﻿@model CMS_Brian.Models.Admin.UserResponse.ClsInstructor
+@using CMS_Brian.Models
+@using CMS_Brian.Models.Admin.UserResponse;
+@using CMS_Brian.Models.Admin.AvailableDays;
+@{
+    RepoAvailableDays availDayd = new RepoAvailableDays();
+    var AllAvailableDays = availDayd.GetAllAvailableDays();
+    /**/
+
+    ViewBag.Title = "AddInstructor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<header class="ribbon">
+    <h2>&nbsp;</h2>
+</header>
+
+<div class="page-content">
+    @{Html.RenderPartial("alerts");}
+
+    <div class="row">
+        <div class="col-md-12">
+            <!--begin::Portlet-->
+            <div class="kt-portlet">
+
+
+                @using (Html.BeginForm())
+                {
+                    <div class="kt-portlet__head breadcrumb-sec">
+                        <div class="kt-portlet__head-label">
+                            <h4>
+                                <a href="/Admin/Instructor" class="kt-menu__link ">
+                                    <i class="kt-menu__link-icon flaticon-presentation"><span></span></i>
+                                    <span class="kt-menu__link-text">Instructors</span>
+                                </a>
+                                <span> > &nbsp; </span>
+                            </h4>
+                            @if (Model != null && !string.IsNullOrEmpty(Model.UserId))
+                            {
+                                <h3 class="kt-portlet__head-bred">
+                                    Edit Instructor
+                                </h3>
+                            }
+                            else
+                            {
+                                <h3 class="kt-portlet__head-bred">
+                                    Add Instructor
+                                </h3>
+                            }
+                        </div>
+                        <div class="kt-portlet__head-toolbar">
+                            <div class="kt-portlet__head-wrapper">
+                                <div class="kt-portlet__head-actions">
+                                    <a href="/admin/Instructor" class="btn btn-brand btn-elevate btn-icon-sm">
+                                        <i class="la la-step-backward"></i>
+                                        Back
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kt-form">
+                        <div class="kt-portlet__body">
+                            @Html.HiddenFor(model => model.AvailableDaysIds)
+                            @if (Model != null && !string.IsNullOrEmpty(Model.UserId))
+                            {
+                                @Html.HiddenFor(model => model.UserId)
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h2>Contact Information</h2>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>First Name <em>*</em></label>
+                                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control required" } })
+                                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Last Name <em>*</em></label>
+                                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control required" } })
+                                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Phone Number</label>
+                                            @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Available Days</label>
+                                            <select class="form-control multiselect Distibutor-Brand" multiple>
+                                                @{
+                                                    RepoAvailableDays admAvailDays = new RepoAvailableDays();
+                                                    var userId = !string.IsNullOrEmpty(Model.UserId) ? Model.UserId : "";
+                                                    var selectedDays = admAvailDays.GetAvailableDaysByUserId(userId);
+                                                    if (AllAvailableDays != null)
+                                                    {
+                                                        foreach (var availDay in AllAvailableDays)
+                                                        {
+                                                            var IsExists = selectedDays.Where(x => x.AvailableDayId == availDay.Id).FirstOrDefault();
+                                                            if (IsExists != null)
+                                                            {
+                                                                <option value="@availDay.Id" selected>@availDay.DayName</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@availDay.Id">@availDay.DayName</option>
+                                                            }
+
+                                                        }
+                                                    }
+                                                }
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Address</label>
+                                            @Html.TextAreaFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+
+                            <input type="hidden" name="Role" value="Abc" />
+                            @if (Model == null || string.IsNullOrEmpty(Model.UserId))
+                            {
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h2>Contact Information</h2>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>First Name <em>*</em></label>
+                                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control required" } })
+                                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Last Name <em>*</em></label>
+                                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control required" } })
+                                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Email (User Name)<em>*</em></label>
+                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control required" } })
+                                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Password <em>*</em></label>
+                                            <div class="input-group" id="show_hide_password">
+                                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control required", autocomplete = "off" } })
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text"><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
+                                                </div>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Phone Number</label>
+                                            @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Available Days</label>
+                                            <select class="form-control multiselect Distibutor-Brand" multiple>
+                                                @{
+                                                    if (AllAvailableDays != null)
+                                                    {
+                                                        foreach (var availDays in AllAvailableDays)
+                                                        {
+                                                            <option value="@availDays.Id">@availDays.DayName</option>
+                                                        }
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Address</label>
+                                            @Html.TextAreaFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="kt-portlet__foot">
+                        <div class="kt-form__actions">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="reset" class="btn btn-secondary">Cancel</button>
+                            @if (Model != null && !string.IsNullOrEmpty(Model.UserId))
+                            {
+                                <a href="/Admin/AssignClassesToInstructorView/?UserId=@Model.UserId" class="btn btn-brand btn-elevate btn-icon-sm">
+                                    <i class="la la-plus"></i>
+                                    Assign Classes
+                                </a>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+            <!--end::Portlet-->
+            @{
+                if (Model != null && !string.IsNullOrEmpty(Model.UserId))
+                {
+                    <div class="container-fluid">
+                        @{Html.RenderPartial("alerts");}
+                        <input type="hidden" id="PageView" value="ClassPartialView/?userId=@Model.UserId" />
+                        <div id="main-content">
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            common.bindDatepicker();
+            GetAvailDaysIds();
+            // Select gender during edit based on database record
+            var url = window.location.href;
+            if (url.indexOf('edit') != -1) {
+                BindPartialView();
+                var selectedGender = $.trim($('#iGender').val());
+                $('select[name^="Gender"] option[value="' + selectedGender + '"]').attr("selected", "selected");
+            }
+            $(".Distibutor-Brand").on("change", function () {
+                GetAvailDaysIds();
+            });
+        });
+
+        function GetAvailDaysIds() {
+            var AvailDaysIds = "";
+            $(".Distibutor-Brand option:selected").each(function () {
+                if (AvailDaysIds == "") {
+                    AvailDaysIds = $(this).val();
+                } else {
+                    AvailDaysIds = AvailDaysIds + "," + $(this).val();
+                }
+            })
+            console.log("AvailDaysIds", AvailDaysIds);
+            $("#AvailableDaysIds").val(AvailDaysIds);
+        }
+        function BindPartialView() {
+            var url = $("#PageView").val();
+            console.log(url);
+            admin.LoadHomePartialView(url);
+        }
+    </script>
+}
+
+
+
